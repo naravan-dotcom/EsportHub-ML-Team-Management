@@ -30,8 +30,7 @@ public class Main extends Application {
                 if ("Admin".equalsIgnoreCase(user.getRole())) {
                     showAdminDashboard(user);
                 } else {
-                    // Player login — for now show success message on login form
-                    // Future: transition to player dashboard
+                    showPlayerDashboard(user);
                 }
             }
         );
@@ -71,6 +70,25 @@ public class Main extends Application {
         Scene adminScene = new Scene(dashboard, 1020, 640);
         stage.setScene(adminScene);
         stage.setTitle("EsportHub - Admin Dashboard");
+        stage.setWidth(1020);
+        stage.setHeight(680); // account for title bar
+        stage.centerOnScreen();
+    }
+
+    private void showPlayerDashboard(User playerUser) {
+        esporthub.Player.PlayerDashboard dashboard = new esporthub.Player.PlayerDashboard(playerUser, () -> {
+            // Logout callback — return to login
+            loginForm.clearFields();
+            stage.setScene(loginScene);
+            stage.setTitle("EsportHub - Login");
+            stage.setWidth(850);
+            stage.setHeight(540); // account for title bar
+            stage.centerOnScreen();
+        });
+
+        Scene playerScene = new Scene(dashboard, 1020, 640);
+        stage.setScene(playerScene);
+        stage.setTitle("EsportHub - Player Dashboard");
         stage.setWidth(1020);
         stage.setHeight(680); // account for title bar
         stage.centerOnScreen();
